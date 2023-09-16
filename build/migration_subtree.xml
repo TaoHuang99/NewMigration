@@ -1,0 +1,34 @@
+<root main_tree_to_execute = "MainTree" >
+
+    <BehaviorTree ID="MainTree">
+        <Sequence name="root">
+            <GetLocalResource name="get_local_resource" />
+            <Sequence name="Migration_process">
+                <Sequence name="Migration_calculate">
+                    <Fallback name="Migration_jugdement">
+                        <IsCpuOver name="Cpu_judgement" />
+                        <IsMemOver name="Men_judgement" />
+                    </Fallback>
+                    <Sequence name="Migration_policy_calculate">
+                        <MigrationNodesGet name="Migration_nodes_get" />
+                        <BestNodeGet name="best_node_Get" />
+                    </Sequence>
+                </Sequence>
+                <Sequence name="Migration_judgement_get">
+                    <MigrationGetImbalance name="Imbalance_count_get" />
+                    <Fallback name="Migration_judgement">
+                        <IsOverloadFrequency name="Overload_Frequency" />
+                        <Sequence name="Migratin_policy_distrubution">
+                            <runBestNode name="Run_best_node" />
+                            <Fallback name="best_node_run_judgement">
+                                <IsPolicySuccess name="Is_policy_success" />
+                                <Update name="update" />
+                            </Fallback>
+                        </Sequence>
+                    </Fallback>
+                </Sequence>
+            </Sequence>
+        </Sequence>
+    </BehaviorTree>
+
+</root>
